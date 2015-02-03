@@ -59,7 +59,7 @@ const char* kCommonSwitches[] = {
 
 Status PrepareCommandLine(int port,
                           const Capabilities& capabilities,
-                          CommandLine* prepared_command,
+                          base::CommandLine* prepared_command,
                           base::ScopedTempDir* user_data_dir,
                           base::ScopedTempDir* extension_dir,
                           std::vector<std::string>* extension_bg_pages) {
@@ -72,7 +72,7 @@ Status PrepareCommandLine(int port,
                   base::StringPrintf("no xwalk binary at %" PRFilePath,
                                      program.value().c_str()));
   }
-  CommandLine command(program);
+  base::CommandLine command(program);
   Switches switches;
 
   switches.SetSwitch("remote-debugging-port", base::IntToString(port));
@@ -151,7 +151,7 @@ Status LaunchDesktopXwalk(
     const Capabilities& capabilities,
     ScopedVector<DevToolsEventListener>& devtools_event_listeners,
     scoped_ptr<Xwalk>* xwalk) {
-  CommandLine command(CommandLine::NO_PROGRAM);
+  base::CommandLine command(base::CommandLine::NO_PROGRAM);
   base::ScopedTempDir user_data_dir;
   base::ScopedTempDir extension_dir;
   std::vector<std::string> extension_bg_pages;
@@ -178,7 +178,7 @@ Status LaunchDesktopXwalk(
   base::ScopedFD devnull;
   //int devnull = -1;
   //base::ScopedFD scoped_devnull(&devnull);
-  if (!CommandLine::ForCurrentProcess()->HasSwitch("verbose")) {
+  if (!base::CommandLine::ForCurrentProcess()->HasSwitch("verbose")) {
     // Redirect stderr to /dev/null, so that Xwalk log spew doesn't confuse
     // users.
     //devnull = open("/dev/null", O_WRONLY);
